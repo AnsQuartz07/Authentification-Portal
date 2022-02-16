@@ -23,4 +23,8 @@ app.use('/api/del',delRoutes);
 app.use('/api/user',authRoutes);           // creating link see auth.js line no - 14
 app.use('/api/posts',postRoutes);          // creating link see auth.js line no - 47
 
-app.listen(3000, () => console.log('Server Up and running'));   //to print somethings console.log 
+// app.listen(3000, () => console.log('Server Up and running'));   //to print somethings console.log 
+var port = process.env.PORT || 3000;
+app.listen(port, function () {
+  console.log("Server Has Started!");
+});
