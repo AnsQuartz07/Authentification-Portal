@@ -4,6 +4,7 @@ const dotenv = require('dotenv');      // Imprt dotenv (an environment variable 
 const mongoose = require('mongoose');  // Import the mongooge package
 
 //Import Routes
+const delRoutes = require('./routes/del.js');
 const authRoutes = require('./routes/auth.js');
 const postRoutes = require('./routes/posts');
 
@@ -18,6 +19,7 @@ console.log('connected to db!')
 app.use(express.json());
 
 //Routes Middlewares
+app.use('/api/del',delRoutes);
 app.use('/api/user',authRoutes);           // creating link see auth.js line no - 14
 app.use('/api/posts',postRoutes);          // creating link see auth.js line no - 47
 
