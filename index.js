@@ -4,7 +4,7 @@ const dotenv = require('dotenv');      // Imprt dotenv (an environment variable 
 const mongoose = require('mongoose');  // Import the mongooge package
 
 //Import Routes
-const delRoutes = require('./routes/del.js');
+const delRoutes = require('./routes/del');
 const authRoutes = require('./routes/auth.js');
 const postRoutes = require('./routes/posts');
 
