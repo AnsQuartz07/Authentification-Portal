@@ -36,7 +36,7 @@ module.exports.login = async (req, res) => {
     service.login(req.body, is_exist)
     .then((result) => {
         res.setHeader('auth-token', result).status(200).json({
-            message: 'logged in successfullt', 
+            message: 'logged in successfully', 
             Token: { 
                 key: 'auth-token', 
                 value: result 
