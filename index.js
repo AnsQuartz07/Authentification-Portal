@@ -4,24 +4,21 @@ const dotenv = require('dotenv');      // Imprt dotenv (an environment variable 
 const mongoose = require('mongoose');  // Import the mongooge package
 
 //Import Routes
-const delRoutes = require('./routes/del');
-const authRoutes = require('./routes/auth.js');
-const postRoutes = require('./routes/posts');
 
-dotenv.config();
+const authRoutes = require('./routes/auth.js');
+
+dotenv.config()
 
 //connect to database
 mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true }, () => 
 console.log('connected to db!')
-);
+)
 
 //middleware
-app.use(express.json());
+app.use(express.json())
 
 //Routes Middlewares
-app.use('/api/del',delRoutes);
-app.use('/api/user',authRoutes);           // creating link see auth.js line no - 14
-app.use('/api/posts',postRoutes);          // creating link see auth.js line no - 47
+app.use('/api/user',authRoutes)         
 
 // app.listen(3000, () => console.log('Server Up and running'));   //to print somethings console.log 
 var port = process.env.PORT || 3000;

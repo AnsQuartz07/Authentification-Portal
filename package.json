@@ -1,7 +1,7 @@
 {
-  "name": "node-js-project",
+  "name": "js-project",
   "version": "1.0.0",
-  "description": "",
+  "description": "➢ User, Admin Login and SignUp Portal with authentication using JWT (JSON web tokens).\r ➢ Using Bcrypt for Password management ( encoding - decoding using HS 256 Algo).\r ➢ Using Express as backend Framework for creating private routes that can be only accessible to LoggedIn user.",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js"
@@ -18,5 +18,13 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnsQuartz07/Authentification-Portal.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AnsQuartz07/Authentification-Portal/issues"
+  },
+  "homepage": "https://github.com/AnsQuartz07/Authentification-Portal#readme"
 }
