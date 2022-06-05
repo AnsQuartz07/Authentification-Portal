@@ -66,6 +66,19 @@ module.exports.delete = async (req, res) => {
         });
     });
 }
+module.exports.accDelete = (req,res) => {
+    const token = req.header('auth-token')
+    service.accDelete(token)
+    .then( (result) => {
+        res.status(200).json({ message : 'Your account has been deleted successfully', result : result})
+    })
+    .catch( (error) => {
+        res.status(500).json({
+            message: "something went wrong",
+            error: error,
+        });
+    })
+}
 
 module.exports.posts =  (req, res) => {
     service.posts()
@@ -74,5 +87,19 @@ module.exports.posts =  (req, res) => {
     })
     .catch((err) => {
         res.status(400).json({ error: err })
+    })
+}
+
+module.exports.update = (req,res) => {
+    const token = req.header('auth-token')
+    service.update(req.body,token)
+    .then( (result) => {
+        res.status(200).json({ message : 'Your account has been updated successfully', result : result})
+    })
+    .catch( (error) => {
+        res.status(500).json({
+            message: "something went wrong",
+            error: error,
+        });
     })
 }
