@@ -14,26 +14,27 @@ module.exports.register = async (payload) => {
         email: payload.email.toLowerCase(),
         password: hashedPassword
     });
-    try {
-        const savedUser = await user.save();        // saving the user's informations
-        return user._id
-    } catch (err) {                              // Indication of any error
-        return err
-    }
+    await user.save();        // saving the user's informations
+    return user._id
 }
 
 module.exports.login = async (payload1, payload2) => {
-    return new Promise(async (resolve, reject) => {
-        // Password validation
-        const validPass = await bcrypt.compare(payload1.password, payload2.password)
-        if (validPass) {
-            const token = jwt.sign({ _id: payload2._id }, process.env.TOKEN_SECRET , { expiresIn : "120s" })
-            resolve(token)
+    // Password validation
+    const validPass = await bcrypt.compare(payload1.password, payload2.password)
+    if (validPass) {
+        const token = jwt.sign({ _id: payload2._id }, process.env.TOKEN_SECRET , { expiresIn : "120s" })
+        let result = {
+            message: 'logged in successfully', 
+            Token: { 
+                key: 'auth-token', 
+                value: token 
+            } 
         }
-        else {
-            reject('Invalid Password')
-        }
-    })
+        return (result)
+    }
+    else {
+        return {message : 'Invalid Password'}
+    }
 }
 
 module.exports.delete = async (payload) => {

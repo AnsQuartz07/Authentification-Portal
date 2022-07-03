@@ -12,40 +12,36 @@ module.exports.register = async (req, res) => {
     const is_exist = await emailExist(req.body.email)
     if (is_exist != null) return res.status(400).json({ message: 'Email already exists.' });
 
+    // Confirm Password
+    if(req.body.password != req.body.confirm_pass) return res.status(400).json({ 
+        message: 'Please confirm your password correctly' 
+    });
+
     // main stuff
-    service.register(req.body)
-    .then((result) => {
+    try {
+        const result = await service.register(req.body)
         res.status(200).json({ message : 'Signed up successfully', user_id : result });
-    })
-    .catch((err) => {
+    } catch {
         res.status(400).json({ message: err });
-    })
+    }
 }
 
 module.exports.login = async (req, res) => {
+    try {
+        // schema validation
+        const { error } = loginValidation(req.body);
+        if (error) return res.status(403).json({ message: error.details[0].message })
 
-    // schema validation
-    const { error } = loginValidation(req.body);
-    if (error) return res.status(403).json({ message: error.details[0].message })
+        // Checking whether the user is already existing in the Database
+        const is_exist = await emailExist(req.body.email)
+        if (is_exist == null) return res.status(400).json({ message: 'Email does not exist.' });
 
-    // Checking whether the user is already existing in the Database
-    const is_exist = await emailExist(req.body.email)
-    if (is_exist == null) return res.status(400).json({ message: 'Email does not exist.' });
-
-    // main stuff
-    service.login(req.body, is_exist)
-    .then((result) => {
-        res.setHeader('auth-token', result).status(200).json({
-            message: 'logged in successfully', 
-            Token: { 
-                key: 'auth-token', 
-                value: result 
-            } 
-        })
-    })
-    .catch((error) => {
+        // main stuff
+        const result = await service.login(req.body, is_exist)
+        res.setHeader('auth-token', result).status(200).json(result)
+    } catch (error) {
         res.status(400).json({message : error})
-    })
+    }
 }
 
 module.exports.delete = async (req, res) => {
