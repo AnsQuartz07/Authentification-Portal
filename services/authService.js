@@ -38,22 +38,14 @@ module.exports.login = async (payload1, payload2) => {
 }
 
 module.exports.delete = async (payload) => {
-    try {
-        const result = User.deleteOne({ email: payload })
-        return result
-    } catch (error) {
-        return error
-    }
+    const result = await User.deleteOne({ email: payload })
+    return result
 }
-module.exports.accDelete = async (payload) => {
-    try {
-        const decodedToken = jwt.decode(payload)
-        const result = User.deleteOne({ _id : decodedToken._id })
-        return result
-    } catch (error) {
-        return error
-    }
 
+module.exports.accDelete = async (payload) => {
+    const decodedToken = jwt.decode(payload)
+    const result = User.deleteOne({ _id : decodedToken._id })
+    return result
 }
 
 module.exports.posts = async () => {
@@ -65,20 +57,14 @@ module.exports.posts = async () => {
 }
 
 module.exports.update = async (payload1,tokenPayload) => {
-    try {
-        const decodedToken = jwt.decode(tokenPayload)
-        if(payload1.email) payload1.email = payload1.email.toLowerCase()
-        if(payload1.password) {
-        
+    const decodedToken = jwt.decode(tokenPayload)
+    if(payload1.email) payload1.email = payload1.email.toLowerCase()
+    if(payload1.password) {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(payload1.password, salt);
         payload1.password = hashedPassword
         console.log(decodedToken)
-       }
-        
-        const result = await User.updateOne({_id : decodedToken._id} , {$set : payload1})
-        return result
-    } catch (error) {
-        return error
     }
+    const result = await User.updateOne({_id : decodedToken._id} , {$set : payload1})
+    return result
 }
